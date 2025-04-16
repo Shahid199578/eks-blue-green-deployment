@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage ('Checkout'){
             steps {
-                git ''
+                git 'https://github.com/Shahid199578/EKS_Blue_Green.git'
             }
         }
         stage ('complie'){
