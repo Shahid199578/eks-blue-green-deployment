@@ -9,8 +9,7 @@ pipeline {
         AWS_REGION = "ap-south-1"
         CLUSTER_NAME = "demoapp-cluster"
     }
-
-    stages {
+    stages{
         stage('Checkout') {
             steps {
                 git 'https://github.com/Shahid199578/eks-blue-green-deployment.git'
@@ -21,7 +20,6 @@ pipeline {
                 sh 'mvn clean package'
             }
         }
-
         stage('Run Test') {
             steps {
                 sh 'mvn test'
@@ -41,7 +39,6 @@ pipeline {
                 sh 'trivy fs . > trivy-file-report || true'
             }
         }
-
         stage('Build Docker Image') {
             steps {
                 script {
@@ -49,13 +46,11 @@ pipeline {
                 }
             }
         }
-
         stage('trivy  Docker image Scan') {
             steps {
                 sh 'trivy image ${IMAGE}:${VERSION} > trivy-image-report || true'
             }
         }
-
         stage('Push Docker Image') {
             steps {
                 script {
@@ -68,7 +63,7 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to EKS') {
+                stage('Deploy to EKS') {
             steps {
                 script {
                         sh """
@@ -78,8 +73,7 @@ pipeline {
                     }
                 }
             }
-        }
-        stage('switch Traffic to Green') {
+            stage('switch Traffic to Green') {
             steps {
                 sh "kubctl patch svc demoapp-service -p '{\"spec\":{\"selector\":{\"app\":\"demoapp\",\"version\":\"green\"}}}'"
             }
