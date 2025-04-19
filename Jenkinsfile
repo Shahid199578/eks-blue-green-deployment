@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git ''
+                git 'https://github.com/Shahid199578/eks-blue-green-deployment.git'
             }
         }
         stage('Build') {
