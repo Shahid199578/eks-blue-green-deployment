@@ -5,7 +5,7 @@ pipeline {
     }
     environment {
         IMAGE = "shahid199578/demoapp"
-        VERSION = "v1"
+        VERSION = "Green"
         AWS_REGION = "ap-south-1"
         CLUSTER_NAME = "demoapp-cluster"
     }
@@ -75,7 +75,7 @@ pipeline {
             }
             stage('switch Traffic to Green') {
             steps {
-                sh "kubctl patch svc demoapp-service -p '{\"spec\":{\"selector\":{\"app\":\"demoapp\",\"version\":\"green\"}}}'"
+                sh "kubectl patch svc demoapp-service -p '{\"spec\":{\"selector\":{\"app\":\"demoapp\",\"version\":\"green\"}}}'"
             }
         }
     }
