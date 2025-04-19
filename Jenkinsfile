@@ -42,7 +42,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    "docker build -t ${IMAGE}:${VERSION} ."
+                   sh "docker build -t ${IMAGE}:${VERSION} ."
                 }
             }
         }
@@ -54,10 +54,10 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh """
-                        echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-                        docker push $IMAGE:$VERSION
+                            echo $PASSWORD | docker login -u $USERNAME --password-stdin
+                            docker push $IMAGE:$VERSION
                         """
                     }
                 }
